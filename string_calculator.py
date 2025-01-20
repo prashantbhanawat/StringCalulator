@@ -1,10 +1,12 @@
 import logging
 
+import re
+import traceback
+
 
 class StringCalculator:
     def __init__(self):
         self.default_delimiter = ','
-        self.delimiter = self.default_delimiter
         self.allowed_delimiters = [',', '\n']
 
     def execute(self, numbers: str) -> int:
@@ -17,23 +19,30 @@ class StringCalculator:
     def _parse_input(self, numbers: str) -> list[int]:
         try:
             modified_numbers = self._replace_delimiter(numbers)
-            if self.delimiter in modified_numbers:
-                modified_numbers = modified_numbers.split(self.delimiter)
+            if self.default_delimiter in modified_numbers:
+                modified_numbers = modified_numbers.split(self.default_delimiter)
                 modified_numbers = [int(num) for num in modified_numbers]
             elif modified_numbers:
                 modified_numbers = [int(modified_numbers)]
         except Exception as e:
-            logging.info(f"Invalid Input, Error in parsing the input: {e}")
+            logging.error(f"Invalid Input, Error in parsing the input: {e}")
+            traceback.print_exc()
             modified_numbers = []
         return modified_numbers
 
     def _replace_delimiter(self, numbers: str) -> str:
-        if numbers.startswith('//'):
-            delimiter = numbers[2]
-            self.delimiter = delimiter
-            numbers = numbers[4:]
+        match = re.match(r'//\[(.*?)]\n', numbers)
+        if match:
+            delimiter = match.group(1)
+            self.allowed_delimiters.append(delimiter)
+            numbers = numbers[match.end():]
+
+        elif numbers.startswith('//'):
+            self.allowed_delimiters.append(numbers[2])
+            numbers = numbers.split('\n')[1]
         for delimiter in self.allowed_delimiters:
-            numbers = numbers.replace(delimiter, self.delimiter)
+            numbers = numbers.replace(delimiter, self.default_delimiter)
+
         return numbers
 
     def _check_negatives(self, parsed_numbers: list[int]):

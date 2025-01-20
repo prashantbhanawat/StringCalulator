@@ -45,6 +45,11 @@ def test_string_calculator():
     # Test for numbers greater than 1000
     assert calculator.execute("1001,2,10000, 7, 9") == 18
 
+    # Test for custom delimiter with multiple characters
+    assert calculator.execute("//[***]\n1***2***3") == 6
+
+    # Test for custom delimiter with multiple characters
+    assert calculator.execute("//[---]\n4---5---6") == 15
 
 
 if __name__ == "__main__":
