@@ -3,7 +3,7 @@ import pytest
 from string_calculator import StringCalculator
 
 
-def string_calculator():
+def test_string_calculator():
     # Create a calculator object
     calculator = StringCalculator()
 
@@ -18,6 +18,12 @@ def string_calculator():
 
     # Test multiple numbers
     assert calculator.execute("6,9,12") == 27
+
+    # Test new line delimiter
+    assert calculator.execute("1\n2,3") == 6
+
+    # Test new line delimiter with multiple numbers
+    assert calculator.execute("1\n2\n3,4\n5") == 15
 
 
 if __name__ == "__main__":
