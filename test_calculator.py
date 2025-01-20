@@ -25,6 +25,12 @@ def test_string_calculator():
     # Test new line delimiter with multiple numbers
     assert calculator.execute("1\n2\n3,4\n5") == 15
 
+    # Test custom delimiter
+    assert calculator.execute("//;\n1;2") == 3
+
+    # Test custom delimiter with multiple numbers
+    assert calculator.execute("//;\n1;2;3;4") == 10
+
 
 if __name__ == "__main__":
     pytest.main()
