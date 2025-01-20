@@ -39,6 +39,13 @@ def test_string_calculator():
     with pytest.raises(ValueError):
         calculator.execute("-1\n2,-3")
 
+    # Test for numbers greater than 1000
+    assert calculator.execute("1001,2") == 2
+
+    # Test for numbers greater than 1000
+    assert calculator.execute("1001,2,10000, 7, 9") == 18
+
+
 
 if __name__ == "__main__":
     pytest.main()

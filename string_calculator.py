@@ -10,6 +10,7 @@ class StringCalculator:
     def execute(self, numbers: str) -> int:
         parsed_numbers = self._parse_input(numbers)
         self._check_negatives(parsed_numbers)
+        parsed_numbers = self._remove_numbers_greater_than_1000(parsed_numbers)
         result = self._calculate(parsed_numbers)
         return result
 
@@ -39,6 +40,10 @@ class StringCalculator:
         negatives = [num for num in parsed_numbers if num < 0]
         if negatives:
             raise ValueError(f"Negatives not allowed: {negatives}")
+
+    def _remove_numbers_greater_than_1000(self, parsed_numbers: list[int]) -> list[int]:
+        parsed_numbers = [num for num in parsed_numbers if num <= 1000]
+        return parsed_numbers
 
     def _calculate(self, parsed_numbers: list[int]) -> int:
         result = sum(parsed_numbers)
