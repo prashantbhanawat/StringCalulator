@@ -9,6 +9,7 @@ class StringCalculator:
 
     def execute(self, numbers: str) -> int:
         parsed_numbers = self._parse_input(numbers)
+        self._check_negatives(parsed_numbers)
         result = self._calculate(parsed_numbers)
         return result
 
@@ -33,6 +34,11 @@ class StringCalculator:
         for delimiter in self.allowed_delimiters:
             numbers = numbers.replace(delimiter, self.delimiter)
         return numbers
+
+    def _check_negatives(self, parsed_numbers: list[int]):
+        negatives = [num for num in parsed_numbers if num < 0]
+        if negatives:
+            raise ValueError(f"Negatives not allowed: {negatives}")
 
     def _calculate(self, parsed_numbers: list[int]) -> int:
         result = sum(parsed_numbers)

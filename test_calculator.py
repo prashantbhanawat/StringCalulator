@@ -31,6 +31,14 @@ def test_string_calculator():
     # Test custom delimiter with multiple numbers
     assert calculator.execute("//;\n1;2;3;4") == 10
 
+    # Test Negative numbers
+    with pytest.raises(ValueError):
+        calculator.execute("-1,2,3")
+
+    # Test Negative numbers
+    with pytest.raises(ValueError):
+        calculator.execute("-1\n2,-3")
+
 
 if __name__ == "__main__":
     pytest.main()
